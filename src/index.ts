@@ -3,8 +3,9 @@ import {Request, Response} from "express";
 import cors from 'cors';
 import axios from 'axios';
 import bodyParser from 'body-parser';
-require('dotenv').config()
+import { config } from 'dotenv'
 
+config();
 const app = express();
 const PORT = process.env.PORT || 3000
 app.use(cors());
