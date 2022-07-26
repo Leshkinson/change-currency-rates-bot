@@ -18,12 +18,12 @@ app.get('/', (req: Request, res: Response) => {
 })
 app.post('/new-message', async  (req: Request, res: Response) => {
     console.log('Request.Body',req.body)
-    const { message } = req.body
+    const message = req.body
     console.log(message)
-    const messageText: string = message?.text?.toLowerCase()?.trim();
-    const chatId = message?.chat?.id
+    const messageText: string = message//?.text?.toLowerCase()?.trim();
 
-    if (!messageText || !chatId) {
+
+    if (!messageText) {
         return res.status(400).send('an error occurs')
     }
 
@@ -32,10 +32,10 @@ app.post('/new-message', async  (req: Request, res: Response) => {
     if (messageText === 'Oleg') {
         try {
             responseText = 'Hi, Oleg'
-            await axios.post(TELEGRAM_URI, {
-                text: responseText
-            })
-            res.send('Done')
+            // await axios.post(TELEGRAM_URI, {
+            //     text: responseText
+            // })
+            res.send(responseText)
             return
         } catch (e) {
             console.log(e)
@@ -45,7 +45,6 @@ app.post('/new-message', async  (req: Request, res: Response) => {
 
     try {
         await axios.post(TELEGRAM_URI, {
-            chat_id: chatId,
             text: responseText
         })
         res.send('Done')
