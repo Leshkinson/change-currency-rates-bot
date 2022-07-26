@@ -9,16 +9,22 @@ config();
 const app = express();
 const PORT = process.env.PORT || 3000
 app.use(cors());
-app.use(bodyParser.json())
+app.use(bodyParser.text())
 
 const TELEGRAM_URI = `https://api.telegram.org/bot${process.env.TELEGRAM_API_TOKEN}/sendMessage`
 
+app.get('/', (req: Request, res: Response) => {
+    res.status(200).send('I am alive!')
+})
 app.post('/new-message', async  (req: Request, res: Response) => {
-    const { message } = req.body;
+    console.log('Request.Body',req.body)
+    const { message } = req.body
+    console.log(message)
     const messageText: string = message?.text?.toLowerCase()?.trim();
+    const chatId = message?.chat?.id
 
-    if (!messageText) {
-        return res.sendStatus(400)
+    if (!messageText || !chatId) {
+        return res.status(400).send('an error occurs')
     }
 
     let responseText: string = 'Hello, It is my first message';
@@ -30,7 +36,7 @@ app.post('/new-message', async  (req: Request, res: Response) => {
                 text: responseText
             })
             res.send('Done')
-
+            return
         } catch (e) {
             console.log(e)
             res.send(e)
@@ -39,6 +45,7 @@ app.post('/new-message', async  (req: Request, res: Response) => {
 
     try {
         await axios.post(TELEGRAM_URI, {
+            chat_id: chatId,
             text: responseText
         })
         res.send('Done')
