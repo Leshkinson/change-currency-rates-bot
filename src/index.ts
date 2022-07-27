@@ -17,11 +17,14 @@ bot.on('message', async msg => {
     if (text === '/start') {
         await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/a6f/1ae/a6f1ae15-7c57-3212-8269-f1a0231ad8c2/1.webp');
         await bot.sendMessage(chatId, `Привет ${msg.from?.username}`)
+        return
     }
     if (text === '/hello') {
         await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/a6f/1ae/a6f1ae15-7c57-3212-8269-f1a0231ad8c2/27.webp');
-        await bot.sendMessage(chatId, `Этот бот, пока умеет только так, ${msg.from?.username}`)
+        await bot.sendMessage(chatId, `Этот бот пока умеет только так, ${msg.from?.username}`)
+        return
     }
-
+    await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/a6f/1ae/a6f1ae15-7c57-3212-8269-f1a0231ad8c2/8.webp');
+    await bot.sendMessage(chatId, `Не пиши ерунду, иначе наваляю, ${msg.from?.username}`)
     console.log(msg)
 })
